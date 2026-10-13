@@ -1,0 +1,14 @@
+# CTMon target list - one domain per line
+# lines starting with # are ignored
+# a target matches ALL its subdomains (example.com matches www.example.com, a.b.example.com, ...)
+#
+# big shared platforms (very high traffic, use with exclude_regex to cut noise):
+# vercel.app
+# pages.dev
+# netlify.app
+# github.io
+# web.app
+#
+# your bug bounty programs:
+example.com
+foo.dev

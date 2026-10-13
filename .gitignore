@@ -1,0 +1,20 @@
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# CTMon local state (never commit secrets or recon data)
+.env
+config.json
+*.pid
+dashboard-data.json
+dashboard.html
+seen.json
+matches.jsonl
+dns-cache.json
+state.json
+logs/
+
+# PowerShell cruft
+*.zip

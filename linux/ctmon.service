@@ -1,0 +1,45 @@
+# ============================================================================
+# CTMon systemd USER service template (Linux / macOS with systemd)
+#
+# Install (as your normal user):
+#   1. mkdir -p ~/.config/systemd/user
+#   2. cp linux/ctmon.service ~/.config/systemd/user/ctmon.service
+#   3. Edit ExecStart below so the paths match YOUR machine:
+#        - path to pwsh executable   (command: 'which pwsh')
+#        - path to CTMon.ps1         (your install directory)
+#   4. systemctl --user daemon-reload
+#   5. systemctl --user enable --now ctmon
+#
+# Useful commands:
+#   systemctl --user status ctmon        # is it running?
+#   journalctl --user -u ctmon -f        # follow live logs
+#   systemctl --user restart ctmon       # restart after config changes
+#   systemctl --user disable --now ctmon # stop + disable
+#
+# NOTE: enable lingering so the service survives full logouts:
+#   sudo loginctl enable-linger $USER
+#
+# Optional dark-mode dashboard as a second user service:
+#   cp ctmon.service ctmon-dash.service, change Description= to
+#   "CTMon dashboard", and set:
+#     ExecStart=/usr/bin/pwsh -NoProfile -NonInteractive -File /home/YOURUSER/CTMon/CTMon.ps1 -Serve
+#   then:  systemctl --user enable --now ctmon-dash
+#
+# Alternative - cron @reboot (same as the original crtmon article):
+#   echo "@reboot sleep 30; $HOME/CTMon/CTMon.ps1 >> $HOME/.config/ctmon/logs/ctmon-cron.log 2>&1 &" | crontab -
+# ============================================================================
+
+[Unit]
+Description=CTMon - Certificate Transparency monitor (bug bounty recon)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/pwsh -NoProfile -NonInteractive -File /home/YOURUSER/CTMon/CTMon.ps1
+Restart=always
+RestartSec=10
+WorkingDirectory=%h
+
+[Install]
+WantedBy=default.target
